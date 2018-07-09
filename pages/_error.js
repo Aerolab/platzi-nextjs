@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from '../components/Layout'
-import Link from 'next/link'
+import { Link } from '../routes'
 
 export default class Error extends React.Component {
   static getInitialProps({ res, err }) {
@@ -16,7 +16,7 @@ export default class Error extends React.Component {
         { statusCode === 404 ?
           <div className="message">
             <h1>Esta página no existe :(</h1>
-            <p><Link href="/"><a>Volver a la home</a></Link></p>
+            <p><Link route="home"><a>Volver a la home</a></Link></p>
           </div>
           :
           <div className="message">

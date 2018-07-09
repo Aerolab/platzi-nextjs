@@ -1,5 +1,6 @@
 import 'isomorphic-fetch'
-import Link from 'next/link'
+import { Link } from '../routes'
+import slug from '../helpers/slug'
 import Layout from '../components/Layout'
 import Error from './_error'
 
@@ -35,7 +36,9 @@ export default class extends React.Component {
       <div className='modal'>
         <div className='clip'>
           <nav>
-            <Link href={`/channel?id=${clip.channel.id}`}>
+            <Link route='channel' 
+              params={{ slug: slug(clip.channel.title), id: clip.channel.id }} 
+              prefetch>
               <a className='close'>&lt; Volver</a>
             </Link>
           </nav>
