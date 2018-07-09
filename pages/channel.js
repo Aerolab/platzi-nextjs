@@ -2,9 +2,16 @@ import 'isomorphic-fetch'
 import Layout from '../components/Layout'
 import ChannelGrid from '../components/ChannelGrid'
 import PodcastList from '../components/PodcastList'
+import PodcastListWithClick from '../components/PodcastListWithClick'
+import PodcastPlayer from '../components/PodcastPlayer'
 import Error from './_error'
 
 export default class extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = { openPodcast: null }
+  }
 
   static async getInitialProps({ query, res }) {
     let idChannel = query.id
@@ -36,14 +43,39 @@ export default class extends React.Component {
     }
   }
 
+  openPodcast = (event, podcast) => {
+    if ( event.metaKey || event.ctrlKey || event.shiftKey || (event.nativeEvent && event.nativeEvent.which === 2) ) {
+      // Si está haciendo Ctrl+Click o Cmd+Click, dejamos que el click suceda normalmente
+      return
+    }
+
+    event.preventDefault()
+    this.setState({
+      openPodcast: podcast
+    })
+  }
+
+  closePodcast = (event) => {
+    event.preventDefault()
+    this.setState({
+      openPodcast: null
+    })
+  }
+  
   render() {
     const { channel, audioClips, series, statusCode } = this.props
+    const { openPodcast } = this.state
 
     if( statusCode !== 200 ) {
       return <Error statusCode={ statusCode } />
     }
 
     return <Layout title={channel.title}>
+
+      { openPodcast && 
+        <PodcastPlayer clip={ openPodcast } onClose={ this.closePodcast } />
+      }
+
       <div className="banner" style={{ backgroundImage: `url(${channel.urls.banner_image.original})` }} />
       
       <h1>{ channel.title }</h1>
@@ -56,7 +88,7 @@ export default class extends React.Component {
       }
 
       <h2>Ultimos Podcasts</h2>
-      <PodcastList podcasts={ audioClips } />
+      <PodcastListWithClick podcasts={ audioClips } onClickPodcast={ this.openPodcast } />
 
       <style jsx>{`
         .banner {
