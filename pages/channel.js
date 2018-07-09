@@ -51,7 +51,14 @@ export default class extends React.Component {
 
       <h2>Ultimos Podcasts</h2>
       { audioClips.map((clip) => (
-        <div className="podcast" key={clip.id}>{ clip.title }</div>
+        <Link href={`/podcast?id=${clip.id}`} prefetch key={clip.id}>
+          <a className='podcast'>
+            <h3>{ clip.title }</h3>
+            <div className='meta'>
+              { Math.ceil(clip.duration / 60) } minutes
+            </div>
+          </a>
+        </Link>
       ))}
 
 
