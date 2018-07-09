@@ -1,7 +1,7 @@
 import 'isomorphic-fetch'
 import Link from 'next/link'
 import Layout from '../components/Layout'
-import Error from 'next/error'
+import Error from './_error'
 
 export default class extends React.Component {
 
