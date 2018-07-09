@@ -3,36 +3,28 @@ import Link from 'next/link'
 
 export default class extends React.Component {
 
-  static async getInitialProps ({ query }) {
-    let id = query.id
-    let fetchClip = await fetch(`https://api.audioboom.com/audio_clips/${id}.mp3`)
-    let clip = (await fetchClip.json()).body.audio_clip
-    return { clip }
-  }
-
   render() {
-    const { clip } = this.props
-
     return <div>
       <header>Podcasts</header>
 
       <div className='modal'>
         <div className='clip'>
           <nav>
-            <Link href={`/channel?id=${clip.channel.id}`}>
+            <Link href={`/channel?id=${"ID DEL CHANNEL"}`}>
               <a className='close'>&lt; Volver</a>
             </Link>
           </nav>
 
           <picture>
-            <div style={{ backgroundImage: `url(${clip.urls.image || clip.channel.urls.logo_image.original})` }} />
+            {/* Hint: Puede estar en clip.urls.image o en clip.channel.urls.logo_image.original */}
+            <div style={{ backgroundImage: `url(${"SOURCE DE LA IMAGEN"})` }} />
           </picture>
 
           <div className='player'>
-            <h3>{ clip.title }</h3>
-            <h6>{ clip.channel.title }</h6>
+            <h3>TITLE DEL CLIP</h3>
+            <h6>NOMBRE DEL CANAL</h6>
             <audio controls autoPlay={true}>
-              <source src={clip.urls.high_mp3} type='audio/mpeg' />
+              <source src={"SOURCE DEL MP3"} type='audio/mpeg' />
             </audio>
           </div>
         </div>
